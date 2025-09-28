@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  comfyui:
+    build:
+      context: ./source
+      dockerfile: Dockerfile
+    container_name: comfyui
+    restart: unless-stopped
+    ports:
+      - "8188:8188"
+    volumes:
+      # Models directory - using E:/comfyui as the base path
+      - "E:/comfyui/models:/opt/comfyui/models:rw"
+      # Custom nodes directory - using E:/comfyui as the base path
+      - "E:/comfyui/custom_nodes:/opt/comfyui/custom_nodes:rw"
+    # environment:
+      # Set these to match your user ID and group ID
+      # On Windows, you can typically use 1000:1000 or leave commented out
+      # USER_ID: "1000"
+      # GROUP_ID: "1000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    # Alternative for older Docker Compose versions:
+    # runtime: nvidia
+    # environment:
+    #   - NVIDIA_VISIBLE_DEVICES=all
+
+    # Uncomment to enable additional ComfyUI options
+    # command: ["--enable-cors-header"]

@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 # Creates the directories for the models inside of the volume that is mounted from the host
 echo "Creating directories for models..."
